@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Karnataka Heritage Roadmap</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #f5f5d5, #fff5e1);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 800px;
+      padding: 30px;
+    }
+
+    .title {
+      font-size: 2em;
+      color: #e07b00;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    .roadmap {
+      position: relative;
+      margin: 0 auto;
+      width: 100px;
+      height: 600px;
+    }
+
+    .road {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 6px;
+      background-color: #bbb;
+      transform: translateX(-50%);
+    }
+
+    .stop {
+      position: absolute;
+      left: 50%;
+      width: 24px;
+      height: 24px;
+      background-color: #e07b00;
+      border: 3px solid white;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .stop:hover {
+      background-color: #c96a00;
+    }
+
+    .stop:nth-child(2) { top: 10%; }
+    .stop:nth-child(3) { top: 35%; }
+    .stop:nth-child(4) { top: 60%; }
+    .stop:nth-child(5) { top: 85%; }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      width: 320px;
+      padding: 20px;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .popup img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .popup h3 {
+      color: #e07b00;
+      margin: 0 0 10px;
+    }
+
+    .popup p {
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .popup .close-btn {
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      float: right;
+    }
+
+    .popup .close-btn:hover {
+      background-color: #c9302c;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">Karnataka Heritage Roadmap</div>
+
+    <div class="roadmap" id="roadmap">
+      <div class="road"></div>
+      <div class="stop" onclick="showPopup(1)"></div>
+      <div class="stop" onclick="showPopup(2)"></div>
+      <div class="stop" onclick="showPopup(3)"></div>
+      <div class="stop" onclick="showPopup(4)"></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Karnataka Temple Popups -->
+  <div class="popup" id="popup1">
+    <button class="close-btn" onclick="closePopup()">Close</button>
+    <img src="https://th.bing.com/th/id/OIP.rjRVkmu00MhLjo7-nQcd2AAAAA?cb=iwc2&rs=1&pid=ImgDetMain" alt="Virupaksha Temple">
+    <h3>Virupaksha Temple, Hampi</h3>
+    <p>This historic temple in Hampi is dedicated to Lord Shiva and is part of the Group of Monuments at Hampi, a UNESCO World Heritage Site.</p>
+  </div>
+
+  <div class="popup" id="popup2">
+    <button class="close-btn" onclick="closePopup()">Close</button>
+    <img src="https://th.bing.com/th/id/OIP.T-INSDjpzLHBuexLkuICngHaE8?cb=iwc2&rs=1&pid=ImgDetMain" alt="Belur Temple">
+    <h3>Chennakeshava Temple, Belur</h3>
+    <p>A masterpiece of Hoysala architecture, this temple is known for its intricate carvings and dedication to Lord Vishnu.</p>
+  </div>
+
+  <div class="popup" id="popup3">
+    <button class="close-btn" onclick="closePopup()">Close</button>
+    <img src="https://th.bing.com/th/id/OIP.t0ZNFWFt3yL9FtUwXBzjiAHaEK?cb=iwc2&rs=1&pid=ImgDetMain" alt="Halebidu Temple">
+    <h3>Hoysaleswara Temple, Halebidu</h3>
+    <p>Dedicated to Lord Shiva, this temple is renowned for its elaborate sculptures and architectural elegance.</p>
+  </div>
+
+  <div class="popup" id="popup4">
+    <button class="close-btn" onclick="closePopup()">Close</button>
+    <img src="https://i0.wp.com/www.onceinalifetimejourney.com/wp-content/uploads/2018/03/Pattadakal-temple-complex.jpg?resize=1280%2C644&ssl=1" alt="Pattadakal">
+    <h3>Pattadakal Monuments</h3>
+    <p>A group of 7th and 8th-century monuments that blend northern and southern Indian architecture, also recognized as a UNESCO site.</p>
+  </div>
+
+  <script>
+    function showPopup(stopNumber) {
+      closePopup(); // Close any existing popups
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById(`popup${stopNumber}`).style.display = 'block';
+    }
+
+    function closePopup() {
+      document.getElementById('overlay').style.display = 'none';
+      document.querySelectorAll('.popup').forEach(p => p.style.display = 'none');
+    }
+
+    // Show roadmap directly by default (optional if needed via JS)
+    window.onload = function() {
+      document.getElementById('roadmap').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
