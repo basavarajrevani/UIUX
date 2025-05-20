@@ -6,7 +6,7 @@
     <title>Karnataka Tourism: Heritage Explorer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:wght@400;700&family=Noto+Sans+Kannada:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         /* Custom font families */
@@ -14,32 +14,54 @@
             font-family: 'Lato', sans-serif;
             background-color: #F5F5DC; /* Soft cream */
             color: #1A237E; /* Royal Blue for text */
+            scroll-behavior: smooth;
         }
         h1, h2, h3, .karnataka-heritage-font {
-            font-family: 'Merriweather', serif; /* Placeholder for "Karnataka Heritage" custom font */
+            font-family: 'Merriweather', serif;
         }
         .kannada-sangam-font {
-            font-family: 'Noto Sans Kannada', sans-serif; /* Placeholder for "Kannada Sangam MN" - using a common Kannada font */
+            font-family: 'Noto Sans Kannada', sans-serif;
         }
 
-        /* Color Palette Variables (applied via Tailwind utility classes where possible) */
+        /* Color Palette Variables */
         :root {
             --primary-saffron: #FF9933;
             --secondary-blue: #1A237E;
             --accent-gold: #D4AF37;
             --neutral-cream: #F5F5DC;
-            --earth-tone: #A0522D; /* Example earth tone */
+            --earth-tone: #A0522D;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #F5F5DC;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
         /* Hero section styles */
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://www.holidaymonk.com/wp-content/uploads/2020/10/Vastuchitra_Stone-Chariot-Hampi.jpg') no-repeat center center/cover;
-            /* Replace with actual video or image */
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://www.holidaymonk.com/wp-content/uploads/2020/10/Vastuchitra_Stone-Chariot-Hampi.jpg') no-repeat center center/cover;
             height: 100vh;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Parallax effect (simple version) */
+        /* Parallax effect */
         .parallax {
             background-attachment: fixed;
             background-position: center;
@@ -47,50 +69,58 @@
             background-size: cover;
         }
 
-        /* Transparent header that becomes solid */
+        /* Transparent header */
         #main-nav {
             transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
         #main-nav.scrolled {
-            background-color: rgba(26, 35, 126, 0.95); /* Solid Royal Blue with slight transparency */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            background-color: rgba(26, 35, 126, 0.98);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         /* Interactive map placeholder */
         .interactive-map-placeholder {
-            background: url('https://placehold.co/600x400/F5F5DC/1A237E?text=Karnataka+Map+Regions&font=lato') no-repeat center center/contain;
-            height: 300px; /* Adjust as needed */
+            background: url('https://placehold.co/600x400/F5F5DC/1A237E?text=Interactive+Karnataka+Map&font=lato') no-repeat center center/contain;
+            height: 400px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .interactive-map-placeholder:hover {
+            transform: scale(1.02);
         }
 
         /* Card styles */
         .experience-card, .destination-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden; /* Ensures rounded corners on images */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
         }
         .experience-card:hover, .destination-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+            background-color: #FFFFFF;
         }
         .destination-card .heritage-highlight {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             background-color: var(--accent-gold);
             color: white;
-            padding: 4px 8px;
-            border-radius: 9999px; /* pill shape */
-            font-size: 0.75rem;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 0.875rem;
             font-weight: bold;
         }
 
-        /* Scrollytelling placeholder */
+        /* Scrollytelling */
         .scrollytelling-section {
-            min-height: 100vh; /* Ensure it takes up viewport height */
+            min-height: 100vh;
         }
         .timeline-item {
             opacity: 0;
             transform: translateY(50px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
         .timeline-item.visible {
             opacity: 1;
@@ -99,32 +129,28 @@
 
         /* Custom button styles */
         .btn {
-            @apply py-3 px-6 rounded-lg font-semibold shadow-md transition-all duration-300 ease-in-out;
+            @apply py-3 px-6 rounded-lg font-semibold shadow-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2;
         }
         .btn-primary {
-            @apply bg-saffron-500 text-white hover:bg-saffron-600;
+            @apply bg-saffron-500 text-white hover:bg-saffron-600 focus:ring-saffron-500;
         }
         .btn-secondary {
-            @apply bg-blue-800 text-white hover:bg-blue-900;
+            @apply bg-blue-800 text-white hover:bg-blue-900 focus:ring-blue-800;
         }
         .btn-gold {
-            @apply bg-yellow-500 text-blue-900 hover:bg-yellow-600;
+            @apply bg-gold-500 text-blue-900 hover:bg-gold-600 focus:ring-gold-500;
         }
 
-        /* Tailwind custom colors (extend Tailwind's default palette) */
-        /* This is done in tailwind.config.js in a real project, here we simulate it */
+        /* Tailwind custom colors */
         .bg-saffron-500 { background-color: #FF9933; }
         .hover\:bg-saffron-600:hover { background-color: #E68A2E; }
         .text-saffron-500 { color: #FF9933; }
-
         .bg-blue-800 { background-color: #1A237E; }
         .hover\:bg-blue-900:hover { background-color: #131A5F; }
         .text-blue-800 { color: #1A237E; }
-
         .bg-gold-500 { background-color: #D4AF37; }
         .hover\:bg-gold-600:hover { background-color: #C09E31; }
         .text-gold-500 { color: #D4AF37; }
-
         .bg-cream-100 { background-color: #F5F5DC; }
         .text-cream-100 { color: #F5F5DC; }
 
@@ -134,98 +160,143 @@
         }
         .mobile-menu.open {
             display: block;
+            animation: slideIn 0.3s ease-in-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        /* Footer styles */
+        footer {
+            background: linear-gradient(180deg, #1A237E 0%, #131A5F 100%);
+            color: #F5F5DC;
+            padding-top: 3rem;
+            padding-bottom: 2rem;
+            position: relative;
+        }
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #FF9933, #D4AF37);
+        }
+        .footer-logo {
+            width: 48px;
+            height: 48px;
+            background: url('https://placehold.co/48x48/D4AF37/FFFFFF?text=KT&font=merriweather') no-repeat center center/cover;
+            margin-bottom: 1rem;
+        }
+        .footer-links a, .footer-social a {
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .footer-links a:hover, .footer-social a:hover {
+            color: #FF9933;
+            transform: translateX(4px);
+        }
+        .footer-social a:hover i {
+            transform: scale(1.2);
+        }
+        .footer-contact p {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
     </style>
 </head>
 <body class="bg-cream-100">
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="animate-pulse">
+            <div class="w-16 h-16 bg-saffron-500 rounded-full flex items-center justify-center">
+                <i class="fas fa-landmark text-white text-2xl"></i>
+            </div>
+        </div>
+    </div>
 
     <nav id="main-nav" class="fixed w-full top-0 z-50 text-white">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold karnataka-heritage-font">Karnataka Heritage Explorer</a>
-            
-            <div class="hidden md:flex space-x-6 items-center">
-                <a href="#destinations" class="hover:text-saffron-500 transition-colors">Destinations</a>
-                <a href="#cultural-heritage" class="hover:text-saffron-500 transition-colors">Cultural Heritage</a>
-                <a href="#experiences" class="hover:text-saffron-500 transition-colors">Experiences</a>
-                <a href="#plan-trip" class="hover:text-saffron-500 transition-colors">Plan Your Trip</a>
-                <a href="#stories" class="hover:text-saffron-500 transition-colors">Stories</a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#destinations" class="hover:text-saffron-500 transition-colors" aria-label="Destinations">Destinations</a>
+                <a href="#cultural-heritage" class="hover:text-saffron-500 transition-colors" aria-label="Cultural Heritage">Cultural Heritage</a>
+                <a href="#experiences" class="hover:text-saffron-500 transition-colors" aria-label="Experiences">Experiences</a>
+                <a href="#plan-trip" class="hover:text-saffron-500 transition-colors" aria-label="Plan Your Trip">Plan Your Trip</a>
+                <a href="#stories" class="hover:text-saffron-500 transition-colors" aria-label="Stories">Stories</a>
                 <div class="relative">
-                    <input type="text" placeholder="Search..." class="bg-white/20 text-white placeholder-gray-300 rounded-full py-2 px-4 pl-10 focus:outline-none focus:bg-white/30 transition-colors">
+                    <input type="text" placeholder="Search..." class="bg-white/20 text-white placeholder-gray-300 rounded-full py-2 px-4 pl-10 focus:outline-none focus:bg-white/30 transition-colors" aria-label="Search">
                     <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"></i>
-                    </div>
+                </div>
                 <button id="heritageExplorerBtn" class="btn btn-gold">Heritage Explorer AI</button>
             </div>
-
             <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                <button id="mobile-menu-button" class="text-white focus:outline-none" aria-label="Toggle mobile menu">
                     <i class="fas fa-bars text-2xl"></i>
                 </button>
             </div>
         </div>
         <div id="mobile-menu" class="mobile-menu md:hidden bg-blue-800/95">
-            <a href="#destinations" class="block py-2 px-4 text-sm hover:bg-blue-700/95 transition-colors">Destinations</a>
-            <a href="#cultural-heritage" class="block py-2 px-4 text-sm hover:bg-blue-700/95 transition-colors">Cultural Heritage</a>
-            <a href="#experiences" class="block py-2 px-4 text-sm hover:bg-blue-700/95 transition-colors">Experiences</a>
-            <a href="#plan-trip" class="block py-2 px-4 text-sm hover:bg-blue-700/95 transition-colors">Plan Your Trip</a>
-            <a href="#stories" class="block py-2 px-4 text-sm hover:bg-blue-700/95 transition-colors">Stories</a>
+            <a href="#destinations" class="block py-3 px-4 text-sm hover:bg-blue-700/95 transition-colors">Destinations</a>
+            <a href="#cultural-heritage" class="block py-3 px-4 text-sm hover:bg-blue-700/95 transition-colors">Cultural Heritage</a>
+            <a href="#experiences" class="block py-3 px-4 text-sm hover:bg-blue-700/95 transition-colors">Experiences</a>
+            <a href="#plan-trip" class="block py-3 px-4 text-sm hover:bg-blue-700/95 transition-colors">Plan Your Trip</a>
+            <a href="#stories" class="block py-3 px-4 text-sm hover:bg-blue-700/95 transition-colors">Stories</a>
             <div class="p-4">
-                <input type="text" placeholder="Search..." class="w-full bg-white/20 text-white placeholder-gray-300 rounded-full py-2 px-4 pl-10 focus:outline-none focus:bg-white/30 transition-colors">
-                 <i class="fas fa-search absolute left-7 top-1/2 transform -translate-y-1/2 text-gray-300 mt-[14px]"></i>
+                <div class="relative">
+                    <input type="text" placeholder="Search..." class="w-full bg-white/20 text-white placeholder-gray-300 rounded-full py-2 px-4 pl-10 focus:outline-none focus:bg-white/30 transition-colors" aria-label="Search">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"></i>
+                </div>
             </div>
             <button class="w-full m-2 btn btn-gold">Heritage Explorer AI</button>
         </div>
     </nav>
 
     <header class="hero-section flex flex-col justify-center items-center text-center text-white p-6">
-        <div class="absolute inset-0 bg-black/30 opacity-50 interactive-map-placeholder-overlay z-0">
-            </div>
-        
+        <div class="absolute inset-0 bg-black/40 z-0"></div>
         <div class="relative z-10">
             <h1 class="text-5xl md:text-7xl font-bold karnataka-heritage-font mb-4 drop-shadow-lg">Karnataka</h1>
-            <p class="text-2xl md:text-4xl mb-6 karnataka-heritage-font drop-shadow-md">Where Heritage Lives</p>
-            
-            <div class="mb-8">
-              
-            </div>
-
+            <p class="text-2xl md:text-4xl mb-8 karnataka-heritage-font drop-shadow-md">Where Heritage Lives</p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                <a href="#heritage" class="bg-saffron-500/80 hover:bg-saffron-500/100 p-6 rounded-lg shadow-lg transition-all duration-300">
+                <a href="#heritage" class="bg-saffron-500/80 hover:bg-saffron-500/100 p-6 rounded-lg shadow-lg transition-all duration-300" aria-label="Heritage">
                     <i class="fas fa-landmark fa-2x mb-2"></i>
                     <h3 class="font-semibold text-lg">Heritage</h3>
                 </a>
-                <a href="#adventure" class="bg-saffron-500/80 hover:bg-saffron-500/100 p-6 rounded-lg shadow-lg transition-all duration-300">
+                <a href="#adventure" class="bg-saffron-500/80 hover:bg-saffron-500/100 p-6 rounded-lg shadow-lg transition-all duration-300" aria-label="Adventure">
                     <i class="fas fa-mountain-sun fa-2x mb-2"></i>
                     <h3 class="font-semibold text-lg">Adventure</h3>
                 </a>
-                <a href="#cuisine" class="bg-saffron-500/80 hover:bg-saffron-500/100 p-6 rounded-lg shadow-lg transition-all duration-300">
+                <a href="#cuisine" class="bg-saffron-500/80 hover:bg-saffron-500/100 p-6 rounded-lg shadow-lg transition-all duration-300" aria-label="Cuisine">
                     <i class="fas fa-utensils fa-2x mb-2"></i>
                     <h3 class="font-semibold text-lg">Cuisine</h3>
                 </a>
-                <a href="#festivals" class="bg-saffron-500/80 hover:bg-saffron-500/100 p-6 rounded-lg shadow-lg transition-all duration-300 text-white text-center">
-    <i class="fas fa-calendar-alt fa-2x mb-2"></i>
-    <h3 class="font-semibold text-lg">Festivals</h3>
-</a>
-
+                <a href="#festivals" class="bg-saffron-500/80 hover:bg-saffron-500/100 p-6 rounded-lg shadow-lg transition-all duration-300" aria-label="Festivals">
+                    <i class="fas fa-calendar-alt fa-2x mb-2"></i>
+                    <h3 class="font-semibold text-lg">Festivals</h3>
+                </a>
             </div>
         </div>
         <div class="absolute bottom-10 text-2xl animate-bounce"><i class="fas fa-chevron-down"></i></div>
     </header>
 
     <main>
-        <section id="experiences" class="py-16 bg-cream-100">
+        <section id="experiences" class="py-20 bg-cream-100">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-4xl font-bold mb-2 karnataka-heritage-font text-blue-800">Explore Diverse Experiences</h2>
+                <h2 class="text-4xl font-bold mb-4 karnataka-heritage-font text-blue-800">Explore Diverse Experiences</h2>
                 <p class="text-lg text-gray-700 mb-12 max-w-2xl mx-auto">From ancient temples to vibrant festivals, discover the soul of Karnataka.</p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="experience-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="experience-card bg-white rounded-xl shadow-lg">
                         <img src="https://i.pinimg.com/originals/aa/b7/6f/aab76f1c261e2f286bd203a65d59510e.jpg" alt="Heritage Site" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold mb-2 karnataka-heritage-font text-saffron-500">Ancient Heritage</h3>
                             <p class="text-gray-600 mb-4 text-sm">Explore magnificent temples, palaces, and ruins that tell tales of bygone eras.</p>
-                            <a href="#" class="btn btn-primary text-sm">Discover More</a>
+                          <a href="./temple.html" class="btn btn-primary text-sm">Discover More</a>
+
                         </div>
                     </div>
-                    <div class="experience-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="experience-card bg-white rounded-xl shadow-lg">
                         <img src="https://thebigwild.com/wp-content/uploads/2022/04/western-ghats-india-1.jpg" alt="Adventure Landscape" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold mb-2 karnataka-heritage-font text-blue-800">Thrilling Adventures</h3>
@@ -233,7 +304,7 @@
                             <a href="#" class="btn btn-secondary text-sm">Start Exploring</a>
                         </div>
                     </div>
-                    <div class="experience-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="experience-card bg-white rounded-xl shadow-lg">
                         <img src="https://images.herzindagi.info/image/2019/Apr/mysore-pak-image.jpg" alt="Karnataka Cuisine" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold mb-2 karnataka-heritage-font text-gold-500">Authentic Cuisine</h3>
@@ -241,32 +312,28 @@
                             <a href="#" class="btn btn-gold text-sm">Taste Karnataka</a>
                         </div>
                     </div>
-                     <div class="experience-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="experience-card bg-white rounded-xl shadow-lg">
                         <img src="https://thumbs.dreamstime.com/z/ratha-yatra-hindu-religious-festival-sacred-wooden-chariots-deities-jagannath-baladeva-subhadra-ai-generated-276989549.jpg" alt="Festival Celebration" class="w-full h-48 object-cover">
                         <div class="p-6">
-                            <h3 class="text-2xl font-bold mb-2 karnataka-heritage-font" style="color: #FF5733;">Vibrant Festivals</h3>
+                            <h3 class="text-2xl font-bold mb-2 karnataka-heritage-font text-[#FF5733]">Vibrant Festivals</h3>
                             <p class="text-gray-600 mb-4 text-sm">Immerse yourself in the colorful celebrations and traditions of Karnataka's festivals.</p>
-                            <a href="#" class="text-sm font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out text-white hover:bg-red-700" style="background-color: #FF5733;">Join the Festivities</a>
+                            <a href="#" class="btn text-sm text-white hover:bg-red-700" style="background-color: #FF5733;">Join the Festivities</a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="cultural-heritage" class="relative py-16 bg-blue-800 text-white scrollytelling-section parallax overflow-hidden">
-    <!-- Video background -->
-    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
-        <source src="./Video.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
-    <!-- Overlay for better readability -->
-    <div class="absolute top-0 left-0 w-full h-full bg-none-800/70 z-10"></div>
-
-    <!-- Content -->
-    <div class="relative z-20 container mx-auto px-6 text-center">
-        
-          <div class="space-y-12">
+        <section id="cultural-heritage" class="relative py-20 bg-blue-800 text-white scrollytelling-section parallax overflow-hidden">
+            <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
+                <source src="./Video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="absolute top-0 left-0 w-full h-full bg-none-800/70 z-10"></div>
+            <div class="relative z-20 container mx-auto px-6 text-center">
+                <h2 class="text-4xl font-bold mb-4 karnataka-heritage-font">Cultural Heritage</h2>
+                <p class="text-lg mb-12 max-w-2xl mx-auto">Journey through Karnataka’s rich history, from ancient dynasties to architectural marvels.</p>
+                <div class="space-y-16">
                     <div class="timeline-item p-6 bg-black/40 backdrop-blur-md rounded-lg shadow-xl max-w-4xl mx-auto text-left md:flex md:items-center md:space-x-6">
                         <div class="md:w-1/3 mb-4 md:mb-0 flex-shrink-0">
                             <img src="https://th.bing.com/th/id/OIP.5Jfga0Jj99PY79w7tTQzswHaFj?rs=1&pid=ImgDetMain" alt="Kadamba Era" class="rounded-lg w-full h-auto object-cover md:max-h-60">
@@ -277,24 +344,22 @@
                                 <i class="fas fa-map-marked-alt mr-2 text-gold-400"></i>
                                 <span>Region: Banavasi, North Karnataka</span>
                             </div>
-                            <p class="text-cream-100/90">The earliest Kannada kingdom, laying the foundation for art, architecture, and administration. Banavasi was their capital, marking a significant era in Karnataka's history.</p>
+                            <p class="text-cream-100/90">The earliest Kannada kingdom, laying the foundation for art, architecture, and administration.</p>
                         </div>
                     </div>
-
                     <div class="timeline-item p-6 bg-black/40 backdrop-blur-md rounded-lg shadow-xl max-w-4xl mx-auto text-left md:flex md:items-center md:space-x-6">
                         <div class="md:w-1/3 mb-4 md:mb-0 flex-shrink-0">
                             <img src="https://iasnext.com/wp-content/uploads/2023/12/Hoysala-Dynasty.webp" alt="Hoysala Sculpture" class="rounded-lg w-full h-auto object-cover md:max-h-60">
                         </div>
                         <div class="md:w-2/3">
                             <h3 class="text-2xl font-bold mb-2 karnataka-heritage-font text-saffron-500">Chalukya & Hoysala Empires (6th - 14th CE)</h3>
-                             <div class="flex items-center text-sm text-gold-300 mb-3">
+                            <div class="flex items-center text-sm text-gold-300 mb-3">
                                 <i class="fas fa-map-marked-alt mr-2 text-gold-400"></i>
                                 <span>Regions: Badami, Aihole, Pattadakal, Belur, Halebidu</span>
                             </div>
-                            <p class="text-cream-100/90">Golden age of temple architecture. Sites like Badami, Aihole, Pattadakal (Chalukya) and Belur, Halebidu (Hoysala) showcase intricate craftsmanship that defines South Indian temple styles.</p>
+                            <p class="text-cream-100/90">Golden age of temple architecture with intricate craftsmanship.</p>
                         </div>
                     </div>
-
                     <div class="timeline-item p-6 bg-black/40 backdrop-blur-md rounded-lg shadow-xl max-w-4xl mx-auto text-left md:flex md:items-center md:space-x-6">
                         <div class="md:w-1/3 mb-4 md:mb-0 flex-shrink-0">
                             <img src="https://img.freepik.com/premium-photo/stone-chariot-hampi-vittala-temple-sunset_211251-1016.jpg?w=2000" alt="Hampi Chariot" class="rounded-lg w-full h-auto object-cover md:max-h-60">
@@ -303,24 +368,20 @@
                             <h3 class="text-2xl font-bold mb-2 karnataka-heritage-font text-saffron-500">Vijayanagara Empire (1336 – 1646 CE)</h3>
                             <div class="flex items-center text-sm text-gold-300 mb-3">
                                 <i class="fas fa-map-marked-alt mr-2 text-gold-400"></i>
-                                <span>Region: Hampi (Capital), Southern India</span>
+                                <span>Region: Hampi, Southern India</span>
                             </div>
-                            <p class="text-cream-100/90">A powerful empire known for its grand capital Hampi, a UNESCO World Heritage site. Fostered a vibrant culture with significant contributions to arts, literature, and temple architecture.</p>
+                            <p class="text-cream-100/90">A UNESCO World Heritage site known for its grand capital Hampi.</p>
                         </div>
                     </div>
                 </div>
-        </div>
-    </div>
-</section>
+            </div>
+        </section>
 
-
-        <section id="destinations" class="py-16 bg-cream-100">
+        <section id="destinations" class="py-20 bg-cream-100">
             <div class="container mx-auto px-6">
                 <h2 class="text-4xl font-bold text-center mb-4 karnataka-heritage-font text-blue-800">Discover Karnataka's Treasures</h2>
-                <p class="text-lg text-gray-700 mb-12 max-w-2xl mx-auto text-center">Explore stunning landscapes, ancient wonders, and vibrant cities across different regions.</p>
-
-               
-
+                <p class="text-lg text-gray-700 mb-12 max-w-2xl mx-auto text-center">Explore stunning landscapes, ancient wonders, and vibrant cities.</p>
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="destination-card bg-white rounded-xl shadow-lg relative">
                         <img src="https://www.holidaymonk.com/wp-content/uploads/2020/10/Vastuchitra_Stone-Chariot-Hampi.jpg" alt="Hampi" class="w-full h-56 object-cover rounded-t-xl">
@@ -350,35 +411,35 @@
                             <h3 class="text-2xl font-bold mb-2 karnataka-heritage-font text-blue-800">Mysuru (Mysore)</h3>
                             <p class="text-gray-600 text-sm mb-1">Region: Southern Karnataka</p>
                             <p class="text-gray-600 text-sm mb-3">Significance: Palaces, gardens, Dasara festival.</p>
-                            <p class="text-xs text-gray-500 mb-3">Best time to visit: Throughout the year (Dasara is special)</p>
+                            <p class="text-xs text-gray-500 mb-3">Best time to visit: Throughout the year</p>
                             <a href="#" class="btn btn-secondary text-sm w-full text-center">Visit Mysuru</a>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="plan-trip" class="py-16 bg-gold-500/20">
+        <section id="plan-trip" class="py-20 bg-gold-500/20">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-4xl font-bold mb-4 karnataka-heritage-font text-blue-800">Craft Your Perfect Karnataka Journey</h2>
-                <p class="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">Answer a few questions, and let us help you build a personalized itinerary filled with cultural immersion.</p>
+                <p class="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">Answer a few questions to build a personalized itinerary.</p>
                 <button class="btn btn-gold text-lg">Start Preference Quiz (Coming Soon)</button>
                 <p class="mt-4 text-sm text-gray-600">Features: AI suggestions, weather-aware routes, cultural event calendar.</p>
             </div>
         </section>
 
-        <section id="stories" class="py-16 bg-cream-100">
+        <section id="stories" class="py-20 bg-cream-100">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-4xl font-bold mb-4 karnataka-heritage-font text-saffron-500">Voices of Karnataka</h2>
-                <p class="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">Hear stories from local artisans, historians, and residents. Share your own experiences!</p>
+                <p class="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">Hear stories from local artisans, historians, and residents.</p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="p-6 bg-white rounded-lg shadow-md">
-                        <img src="https://placehold.co/100x100/1A237E/FFFFFF?text=Artisan&font=lato" alt="Artisan" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+                        <img src="https://i.pinimg.com/originals/f2/ff/98/f2ff986b6e1f879c52cbbb731df21e8f.png" alt="Artisan" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
                         <h3 class="font-semibold text-blue-800">Artisan's Tale</h3>
                         <p class="text-sm text-gray-600">"My family has been weaving silk for generations..."</p>
                     </div>
                     <div class="p-6 bg-white rounded-lg shadow-md">
-                        <img src="https://placehold.co/100x100/D4AF37/1A237E?text=Historian&font=lato" alt="Historian" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+                        <img src="https://www.indica.today/wp-content/uploads/2023/06/AiholePrashasti-article-1.jpg" alt="Historian" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
                         <h3 class="font-semibold text-gold-500">Historian's Insight</h3>
                         <p class="text-sm text-gray-600">"The inscriptions at Aihole reveal so much..."</p>
                     </div>
@@ -393,62 +454,75 @@
         </section>
     </main>
 
-    <footer class="bg-blue-800 text-cream-100/80 py-12">
+    <footer class="bg-blue-800 text-cream-100/90">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                 <div>
-                    <h3 class="text-xl font-bold mb-3 karnataka-heritage-font text-saffron-500">Karnataka Heritage Explorer</h3>
-                    <p class="text-sm">Your gateway to the rich cultural tapestry of Karnataka.</p>
-                    <div class="mt-4 space-x-3">
-                        <a href="#" class="hover:text-saffron-500"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="hover:text-saffron-500"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="hover:text-saffron-500"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="hover:text-saffron-500"><i class="fab fa-youtube"></i></a>
+                    <div class="footer-logo"></div>
+                    <h3 class="text-xl font-bold mb-4 karnataka-heritage-font text-saffron-500">Karnataka Heritage Explorer</h3>
+                    <p class="text-sm leading-relaxed">Discover the soul of Karnataka through its rich cultural heritage, stunning landscapes, and vibrant traditions.</p>
+                    <div class="mt-6 footer-social flex space-x-4">
+                        <a href="#" class="text-cream-100 hover:text-saffron-500" aria-label="Facebook"><i class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="text-cream-100 hover:text-saffron-500" aria-label="Instagram"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-cream-100 hover:text-saffron-500" aria-label="Twitter"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-cream-100 hover:text-saffron-500" aria-label="YouTube"><i class="fab fa-youtube text-xl"></i></a>
                     </div>
                 </div>
                 <div>
-                    <h4 class="text-lg font-semibold mb-3 text-white">Quick Links</h4>
-                    <ul class="space-y-2 text-sm">
+                    <h4 class="text-lg font-semibold mb-4 text-white">Explore</h4>
+                    <ul class="footer-links space-y-3 text-sm">
+                        <li><a href="#destinations" class="hover:text-saffron-500">Destinations</a></li>
+                        <li><a href="#cultural-heritage" class="hover:text-saffron-500">Cultural Heritage</a></li>
+                        <li><a href="#experiences" class="hover:text-saffron-500">Experiences</a></li>
+                        <li><a href="#plan-trip" class="hover:text-saffron-500">Plan Your Trip</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-white">Quick Links</h4>
+                    <ul class="footer-links space-y-3 text-sm">
                         <li><a href="#about" class="hover:text-saffron-500">About Us</a></li>
                         <li><a href="#contact" class="hover:text-saffron-500">Contact</a></li>
                         <li><a href="#privacy" class="hover:text-saffron-500">Privacy Policy</a></li>
                         <li><a href="#terms" class="hover:text-saffron-500">Terms of Service</a></li>
-                        <li><a href="#accessibility" class="hover:text-saffron-500">Accessibility</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-3 text-white">Contact Us</h4>
-                    <p class="text-sm">Department of Tourism, Karnataka</p>
-                    <p class="text-sm">Bengaluru, India</p>
-                    <p class="text-sm mt-2"><i class="fas fa-envelope mr-2"></i> info@karnatakatourism.org</p>
-                    <p class="text-sm"><i class="fas fa-phone mr-2"></i> +91-XXX-XXXXXXX</p>
+                <div class="footer-contact">
+                    <h4 class="text-lg font-semibold mb-4 text-white">Contact Us</h4>
+                    <p class="text-sm mb-3"><i class="fas fa-map-marker-alt mr-2"></i> Department of Tourism, Bengaluru, India</p>
+                    <p class="text-sm mb-3"><i class="fas fa-envelope mr-2"></i> info@karnatakatourism.org</p>
+                    <p class="text-sm"><i class="fas fa-phone mr-2"></i> +91-80-XXXX-XXXX</p>
                 </div>
             </div>
-            <div class="border-t border-blue-700 pt-8 text-center text-sm">
-                <p>&copy; <span id="currentYear"></span> Karnataka Tourism. All rights reserved.</p>
-                <p class="kannada-sangam-font mt-1">ಕರ್ನಾಟಕ ಪ್ರವಾಸೋದ್ಯಮ ಇಲಾಖೆ</p>
+            <div class="border-t border-blue-700/50 pt-6 text-center text-sm">
+                <p>© <span id="currentYear"></span> Karnataka Tourism. All rights reserved.</p>
+                <p class="kannada-sangam-font mt-2 text-sm">ಕರ್ನಾಟಕ ಪ್ರವಾಸೋದ್ಯಮ ಇಲಾಖೆ</p>
             </div>
         </div>
     </footer>
 
-    <div id="heritageExplorerModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100] hidden">
-        <div class="bg-white p-8 rounded-lg shadow-xl max-w-lg w-full text-blue-800">
-            <div class="flex justify-between items-center mb-4">
+    <div id="heritageExplorerModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-[100] hidden">
+        <div class="bg-white p-8 rounded-xl shadow-2xl max-w-lg w-full text-blue-800">
+            <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold karnataka-heritage-font text-saffron-500">Heritage Explorer AI</h2>
-                <button id="closeHeritageExplorerModal" class="text-2xl hover:text-red-500">&times;</button>
+                <button id="closeHeritageExplorerModal" class="text-2xl hover:text-red-500 focus:outline-none" aria-label="Close modal">×</button>
             </div>
-            <p class="mb-4">Hello! I'm your AI-powered Heritage Explorer. How can I help you discover the wonders of Karnataka today?</p>
-            <textarea class="w-full p-2 border border-blue-200 rounded-md mb-4 h-24" placeholder="Ask about specific sites, cultural practices, or plan your trip..."></textarea>
+            <p class="mb-4 text-sm">Hello! I'm your AI-powered Heritage Explorer. How can I help you discover Karnataka today?</p>
+            <textarea class="w-full p-3 border border-blue-200 rounded-md mb-4 h-28 focus:outline-none focus:ring-2 focus:ring-saffron-500" placeholder="Ask about specific sites, cultural practices, or plan your trip..." aria-label="AI query input"></textarea>
             <button class="btn btn-primary w-full">Ask AI</button>
-            <p class="text-xs text-gray-500 mt-2 text-center">This is a conceptual AI assistant.</p>
+            <p class="text-xs text-gray-500 mt-3 text-center">This is a conceptual AI assistant.</p>
         </div>
     </div>
 
-
     <script>
-        // JavaScript for interactions
+        // Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 1000);
+        });
 
-        // Transparent header scroll effect
+        // Navigation scroll effect
         const nav = document.getElementById('main-nav');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -463,19 +537,11 @@
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('open');
-            // Toggle icon
             const icon = mobileMenuButton.querySelector('i');
-            if (mobileMenu.classList.contains('open')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
         });
-        // Close mobile menu when a link is clicked
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
+        mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('open');
                 mobileMenuButton.querySelector('i').classList.remove('fa-times');
@@ -483,102 +549,64 @@
             });
         });
 
-
-        // Scrollytelling simple animation
+        // Scrollytelling animation
         const timelineItems = document.querySelectorAll('.timeline-item');
         const observerOptions = {
-            root: null, // relative to document viewport
+            root: null,
             rootMargin: '0px',
-            threshold: 0.1 // 10% of item is visible
+            threshold: 0.2
         };
-
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Optional: unobserve after animation to save resources
-                    // observer.unobserve(entry.target); 
                 }
             });
         }, observerOptions);
+        timelineItems.forEach(item => observer.observe(item));
 
-        timelineItems.forEach(item => {
-            observer.observe(item);
-        });
-
-        // Set current year in footer
+        // Set current year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-        // Language toggle (conceptual)
-        const langEn = document.getElementById('lang-en');
-        const langKn = document.getElementById('lang-kn');
-        langEn.addEventListener('click', () => {
-            // Logic to change language to English
-            console.log("Language set to English");
-            // Example: document.documentElement.lang = 'en';
-            // You would typically reload content or use a localization library
-            alert("Language switched to English (conceptual).");
-        });
-        langKn.addEventListener('click', () => {
-            // Logic to change language to Kannada
-            console.log("Language set to Kannada");
-            // Example: document.documentElement.lang = 'kn';
-            alert("Language switched to Kannada (conceptual).");
-        });
 
         // Heritage Explorer AI Modal
         const heritageExplorerBtn = document.getElementById('heritageExplorerBtn');
+        const mobileHeritageExplorerBtn = document.querySelector('#mobile-menu .btn-gold');
         const heritageExplorerModal = document.getElementById('heritageExplorerModal');
         const closeHeritageExplorerModal = document.getElementById('closeHeritageExplorerModal');
-        
-        // Also select the mobile button if it exists
-        const mobileHeritageExplorerBtn = document.querySelector('#mobile-menu .btn-gold');
-
 
         function openModal() {
             heritageExplorerModal.classList.remove('hidden');
+            heritageExplorerModal.querySelector('textarea').focus();
         }
-
         function closeModal() {
             heritageExplorerModal.classList.add('hidden');
         }
 
         heritageExplorerBtn.addEventListener('click', openModal);
-        if(mobileHeritageExplorerBtn) { // Check if mobile button exists
-             mobileHeritageExplorerBtn.addEventListener('click', () => {
+        if (mobileHeritageExplorerBtn) {
+            mobileHeritageExplorerBtn.addEventListener('click', () => {
                 openModal();
-                // Close mobile menu if open
-                if (mobileMenu.classList.contains('open')) {
-                    mobileMenu.classList.remove('open');
-                    mobileMenuButton.querySelector('i').classList.remove('fa-times');
-                    mobileMenuButton.querySelector('i').classList.add('fa-bars');
-                }
+                mobileMenu.classList.remove('open');
+                mobileMenuButton.querySelector('i').classList.remove('fa-times');
+                mobileMenuButton.querySelector('i').classList.add('fa-bars');
             });
         }
         closeHeritageExplorerModal.addEventListener('click', closeModal);
-
-        // Close modal if clicked outside
         heritageExplorerModal.addEventListener('click', (event) => {
-            if (event.target === heritageExplorerModal) {
-                closeModal();
-            }
+            if (event.target === heritageExplorerModal) closeModal();
         });
 
-
-        // Smooth scrolling for anchor links
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
-
     </script>
 </body>
 </html>
