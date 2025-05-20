@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Karnataka Adventures</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #f5f5d5, #fff5e1); /* Matches previous background */
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column; /* Arrange content vertically */
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .adventure-card {
+      background-color: #ffffff;
+      border-radius: 15px; /* Rounded corners for the card */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Soft shadow */
+      width: 100%;
+      max-width: 380px; /* Adjust max width as needed */
+      overflow: hidden; /* Ensures image corners are rounded */
+      text-align: center;
+      margin: 0 auto 50px auto; /* Center the card and add space below */
+    }
+
+    .adventure-card img {
+      width: 100%;
+      height: 220px; /* Fixed height for the image */
+      object-fit: cover; /* Ensures image covers the area without distortion */
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      display: block; /* Removes extra space below image */
+    }
+
+    .adventure-card .content {
+      padding: 25px;
+    }
+
+    .adventure-card h2 {
+      font-size: 1.8em;
+      color: #3f51b5; /* A blue color similar to the image */
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .adventure-card p {
+      font-size: 1.0em;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 0; /* No margin below paragraph as "Start Exploring" is removed */
+      padding: 0 10px; /* Add some horizontal padding to description */
+    }
+
+    /* Styles for the adventure places list */
+    .adventures-list-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      max-width: 800px;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center; /* Center the heading within the list container */
+    }
+
+    .adventures-list-container h2 {
+      color: #e07b00;
+      margin-bottom: 30px;
+    }
+
+    .adventures-list-container ul {
+      list-style-type: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .adventures-list-container li {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      text-align: left; /* Align text within each list item */
+    }
+
+    .adventures-list-container li h3 {
+      color: #3f51b5;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .adventures-list-container li p {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 0;
+      padding: 0; /* Remove padding from list item paragraphs */
+    }
+
+    /* Basic Responsive Adjustments */
+    @media (max-width: 480px) {
+      .adventure-card {
+        max-width: 95%;
+        margin: 10px auto 40px auto;
+      }
+
+      .adventure-card h2 {
+        font-size: 1.6em;
+      }
+
+      .adventure-card p {
+        font-size: 0.95em;
+      }
+
+      .adventures-list-container {
+        max-width: 95%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="adventure-card">
+    <img src="https://www.karnataka.com/wp-content/uploads/2009/07/jog-falls-01.jpg" alt="Jog Falls, Karnataka">
+    <div class="content">
+      <h2>Thrilling Adventures</h2>
+      <p>Trek through lush Western Ghats, raft in roaring rivers, or discover hidden waterfalls.</p>
+    </div>
+  </div>
+
+  <div id="adventures-list" class="adventures-list-container">
+    <h2>Top Adventure Spots in Karnataka</h2>
+    <ul>
+      <li>
+        <h3>Coorg (Kodagu)</h3>
+        <p>Trekking (Tadiandamol, Pushpagiri), Rafting (Barapole River), Waterfall rappelling, camping.</p>
+      </li>
+      <li>
+        <h3>Chikmagalur</h3>
+        <p>Trekking (Mullayanagiri, Baba Budangiri), Coffee plantation trails, Ziplining.</p>
+      </li>
+      <li>
+        <h3>Gokarna / Murudeshwar</h3>
+        <p>Beach trekking, Scuba diving, Snorkeling, Jet skiing, Parasailing.</p>
+      </li>
+      <li>
+        <h3>Dandeli</h3>
+        <p>White-water rafting (Kali River), Kayaking, Canoeing, Jungle safaris.</p>
+      </li>
+      <li>
+        <h3>Supa Dam Reservoir</h3>
+        <p>Kayaking, boating, and scenic water activities near Dandeli.</p>
+      </li>
+      <li>
+        <h3>Anthargange</h3>
+        <p>Cave exploration, rock climbing, and night trekking.</p>
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>
